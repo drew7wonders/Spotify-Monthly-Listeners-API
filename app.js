@@ -23,7 +23,8 @@ async function scrapeMonthlyListeners(artistUrl) {
   try {
     const browser = await puppeteer.launch({
       headless: true,
-      executablePath: require('puppeteer-core').executablePath(),
+      executablePath: await puppeteer.executablePath(),
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Additional args for running in a sandboxed environment
     });
 
     const page = await browser.newPage();
