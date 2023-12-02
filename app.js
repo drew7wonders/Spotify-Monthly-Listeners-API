@@ -10,7 +10,7 @@ app.use(cors());
 app.get('/scrape/:artistId', async (req, res) => {
   try {
     const artistUrl = `https://open.spotify.com/artist/${req.params.artistId}`;
-    const monthlyListeners = await scrapeMonthlyListeners(artistUrl, ${req.params.artistId});
+    const monthlyListeners = await scrapeMonthlyListeners(artistUrl);
     console.log('Monthly Listeners:', monthlyListeners);
     res.json({ monthlyListeners });
   } catch (error) {
@@ -19,7 +19,7 @@ app.get('/scrape/:artistId', async (req, res) => {
   }
 });
 
-async function scrapeMonthlyListeners(artistUrl artistID) {
+async function scrapeMonthlyListeners(artistUrl) {
   try {
     const browser = await puppeteer.launch({
       headless: true,
@@ -30,9 +30,9 @@ async function scrapeMonthlyListeners(artistUrl artistID) {
     const page = await browser.newPage();
 
     await page.goto(artistUrl);
-    await page.waitForSelector('.artistID');
+    await page.waitForSelector('.Ydwa1P5GkCggtLlSvphs');
 
-    const monthlyListeners = await page.$eval('.artistID', element => element.textContent.trim());
+    const monthlyListeners = await page.$eval('.Ydwa1P5GkCggtLlSvphs', element => element.textContent.trim());
 
     await browser.close();
     return monthlyListeners;
