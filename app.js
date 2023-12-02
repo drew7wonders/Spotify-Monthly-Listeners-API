@@ -37,7 +37,7 @@ async function scrapeMonthlyListeners(artistUrl) {
 
     const browser = await puppeteer.launch({
       headless: 'new',
-      executablePath: chromiumPath,
+      executablePath: puppeteer.executablePath(),
     });
 
     const page = await browser.newPage();
