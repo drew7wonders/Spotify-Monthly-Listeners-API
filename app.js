@@ -1,5 +1,5 @@
 const express = require('express');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const cors = require('cors');
 
 const app = express();
@@ -23,6 +23,7 @@ async function scrapeMonthlyListeners(artistUrl) {
   try {
     const browser = await puppeteer.launch({
       headless: true,
+      executablePath: require('puppeteer-core').executablePath(),
     });
 
     const page = await browser.newPage();
