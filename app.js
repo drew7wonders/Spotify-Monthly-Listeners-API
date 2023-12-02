@@ -10,7 +10,7 @@ app.use(cors());
 app.get('/scrape/:artistId', async (req, res) => {
   try {
     const artistUrl = `https://open.spotify.com/artist/${req.params.artistId}`;
-    const monthlyListeners = await scrapeMonthlyListeners(artistUrl);
+    const monthlyListeners = await scrapeMonthlyListeners(artistUrl, ${req.params.artistId});
     console.log('Monthly Listeners:', monthlyListeners);
     res.json({ monthlyListeners });
   } catch (error) {
@@ -19,20 +19,20 @@ app.get('/scrape/:artistId', async (req, res) => {
   }
 });
 
-async function scrapeMonthlyListeners(artistUrl) {
+async function scrapeMonthlyListeners(artistUrl artistID) {
   try {
     const browser = await puppeteer.launch({
       headless: true,
-      executablePath: await puppeteer.executablePath(),
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Additional args for running in a sandboxed environment
+      executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium-browser',
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     const page = await browser.newPage();
 
     await page.goto(artistUrl);
-    await page.waitForSelector('.Ydwa1P5GkCggtLlSvphs');
+    await page.waitForSelector('.artistID');
 
-    const monthlyListeners = await page.$eval('.Ydwa1P5GkCggtLlSvphs', element => element.textContent.trim());
+    const monthlyListeners = await page.$eval('.artistID', element => element.textContent.trim());
 
     await browser.close();
     return monthlyListeners;
