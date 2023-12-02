@@ -27,13 +27,15 @@ async function scrapeMonthlyListeners(artistUrl) {
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
-    const page = await browser.newPage();
+    const context = await browser.createIncognitoBrowserContext();
+    const page = await context.newPage();
 
     await page.goto(artistUrl);
     await page.waitForSelector('.Ydwa1P5GkCggtLlSvphs');
 
     const monthlyListeners = await page.$eval('.Ydwa1P5GkCggtLlSvphs', element => element.textContent.trim());
 
+    await context.close();
     await browser.close();
     return monthlyListeners;
 
