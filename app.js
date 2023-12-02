@@ -23,22 +23,18 @@ async function scrapeMonthlyListeners(artistUrl) {
   try {
     const browser = await puppeteer.launch({
       headless: true,
-      executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium-browser',
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
-    const context = await browser.createIncognitoBrowserContext();
-    const page = await context.newPage();
+    const page = await browser.newPage();
 
     await page.goto(artistUrl);
     await page.waitForSelector('.Ydwa1P5GkCggtLlSvphs');
 
     const monthlyListeners = await page.$eval('.Ydwa1P5GkCggtLlSvphs', element => element.textContent.trim());
 
-    await context.close();
     await browser.close();
     return monthlyListeners;
-
   } catch (error) {
     console.error('Error:', error.message);
     throw error;
