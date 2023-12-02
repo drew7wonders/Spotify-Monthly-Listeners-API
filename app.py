@@ -1,31 +1,17 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from chromedriver_autoinstaller import install
-import logging
-import os
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
-logging.basicConfig(level=logging.INFO)
 
 def scrape_spotify_artist(url):
     try:
-        logging.info(f"Scraping Spotify artist from URL: {url}")
-
-        # Automatically install the latest version of chromedriver
-        install()
-
         options = webdriver.ChromeOptions()
+        options.add_argument('--headless')  # Run Chrome in headless mode (no GUI)
 
-        # Conditionally enable headless mode based on the HEADLESS environment variable
-        if os.environ.get('HEADLESS', 'true').lower() == 'true':
-            options.add_argument('--headless')
-
-        # Use the installed chromedriver
+        # Use the path to your ChromeDriver executable
         driver = webdriver.Chrome(options=options)
 
         driver.get(url)
@@ -38,11 +24,10 @@ def scrape_spotify_artist(url):
         result = element.text if element else "Span element not found on the page."
 
         driver.quit()
-        logging.info("Scraping completed successfully")
         return result
 
+
     except Exception as e:
-        logging.error(f"Error during scraping: {e}")
         return f"Error: {e}"
 
 @app.route('/scrape', methods=['POST'])
@@ -56,6 +41,4 @@ def scrape_endpoint():
         return jsonify({'error': 'Please provide a Spotify artist URL in the request body.'})
 
 if __name__ == '__main__':
-    # Use the PORT environment variable or default to 5000
-    port = int(os.environ.get('PORT', 5000))
-    app.run(debug=True, port=port)
+    app.run(debug=True)
