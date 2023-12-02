@@ -1,8 +1,10 @@
+# app.py
 from flask import Flask, request, jsonify
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import os
 
 app = Flask(__name__)
 
@@ -11,7 +13,7 @@ def scrape_spotify_artist(url):
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')  # Run Chrome in headless mode (no GUI)
 
-        # Use the path to your ChromeDriver executable
+        # Use the installed chromedriver
         driver = webdriver.Chrome(options=options)
 
         driver.get(url)
@@ -25,7 +27,6 @@ def scrape_spotify_artist(url):
 
         driver.quit()
         return result
-
 
     except Exception as e:
         return f"Error: {e}"
@@ -41,4 +42,4 @@ def scrape_endpoint():
         return jsonify({'error': 'Please provide a Spotify artist URL in the request body.'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
