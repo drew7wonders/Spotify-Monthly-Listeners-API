@@ -1,13 +1,14 @@
 {
-    "name": "spotify-scraper-api",
-    "version": "1.0.0",
-    "main": "app.js",
-    "scripts": {
-      "start": "node app.js"
-    },
-    "dependencies": {
+  "name": "your-app-name",
+  "version": "1.0.0",
+  "description": "Your application description",
+  "main": "app.js", // Assuming your main entry file is named "app.js"
+  "scripts": {
+    "start": "node app.js" // Adjust the start script according to your entry file
+  },
+  "dependencies": {
     "express": "^4.17.1",
     "puppeteer-core": "^2.1.1",
     "cors": "^2.8.5"
-    }
   }
+}
