@@ -15,6 +15,7 @@ app.get('/scrape/:artistId', async (req, res) => {
   try {
     const artistUrl = `https://open.spotify.com/artist/${req.params.artistId}`;
     const monthlyListeners = await scrapeMonthlyListeners(artistUrl);
+    console.log('Monthly Listeners:', monthlyListeners); // Log the value
     res.json({ monthlyListeners });
   } catch (error) {
     console.error('Error:', error.message);
