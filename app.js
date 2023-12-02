@@ -14,17 +14,10 @@ app.use(cors());
 app.get('/scrape/:artistId', async (req, res) => {
   try {
     const artistUrl = `https://open.spotify.com/artist/${req.params.artistId}`;
-
-    // Scrape monthly listeners using Puppeteer
     const monthlyListeners = await scrapeMonthlyListeners(artistUrl);
-
-    // Return the result as JSON
     res.json({ monthlyListeners });
-
   } catch (error) {
     console.error('Error:', error.message);
-
-    // Return a more general error message in the response
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
