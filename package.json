@@ -1,15 +1,15 @@
 {
-  "name": "app",
-  "version": "1.0.0",
-  "description": "Your application description",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js"
-  },
-  "dependencies": {
-    "express": "^4.17.1",
-    "axios": "^0.24.0",
-    "cheerio": "^1.0.0-rc.10",
-    "puppeteer": "^19.0.0",
+    "name": "spotify-scraper-api",
+    "version": "1.0.0",
+    "main": "app.js",
+    "scripts": {
+      "start": "node app.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1",
+      "axios": "^0.24.0",
+      "cheerio": "^1.0.0-rc.10",
+      "puppeteer": "^19.0.0",
+      "cors": "^2.8.5"
+    }
   }
-}
