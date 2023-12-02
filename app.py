@@ -3,15 +3,19 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from chromedriver_autoinstaller import install
 
 app = Flask(__name__)
 
 def scrape_spotify_artist(url):
     try:
+        # Automatically install the latest version of chromedriver
+        install()
+
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')  # Run Chrome in headless mode (no GUI)
 
-        # Use the path to your ChromeDriver executable
+        # Use the installed chromedriver
         driver = webdriver.Chrome(options=options)
 
         driver.get(url)
@@ -25,7 +29,6 @@ def scrape_spotify_artist(url):
 
         driver.quit()
         return result
-
 
     except Exception as e:
         return f"Error: {e}"
